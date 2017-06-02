@@ -7,7 +7,7 @@ public class GameObject {
 	
 	private ImageView view;
 	private boolean alive = true;
-	private int x, y, velX, velY;
+	private double x, y, velX, velY;
 	private Point2D velocity = new Point2D(0,0);
 	
 	public GameObject(ImageView view){
@@ -22,7 +22,7 @@ public class GameObject {
 		return velocity;
 	}
 	
-	public void setVelocity(int dx, int dy){
+	public void setVelocity(double dx, double dy){
 		velocity = velocity.add(dx, dy);
 	}
 	
@@ -43,37 +43,37 @@ public class GameObject {
 		return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 		view.setX(x);
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 		view.setY(y);
 	}
 
-	public int getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(int velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 
-	public int getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(int velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
 	

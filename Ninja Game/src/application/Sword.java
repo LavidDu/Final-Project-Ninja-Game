@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 public class Sword extends GameObject {
 
 	private Image[] state;
+	private BlockDir blockDirection;
 
 	public Sword() {
 		super(new ImageView());
@@ -26,6 +27,7 @@ public class Sword extends GameObject {
 		getView().setRotate(0);
 		setX(263);
 		setY(347);
+		blockDirection = BlockDir.left;
 	}
 
 	public void setRight() {
@@ -33,6 +35,7 @@ public class Sword extends GameObject {
 		getView().setRotate(0);
 		setX(370);
 		setY(347);
+		blockDirection = BlockDir.right;
 	}
 
 	public void setLeftandUp() {
@@ -40,6 +43,7 @@ public class Sword extends GameObject {
 		getView().setRotate(25);
 		setX(263);
 		setY(322);
+		blockDirection = BlockDir.upLeft;
 	}
 
 	public void setRightandUp() {
@@ -47,6 +51,7 @@ public class Sword extends GameObject {
 		getView().setRotate(-25);
 		setX(369);
 		setY(322);
+		blockDirection = BlockDir.upRight;
 	}
 
 	public void setDownandLeft() {
@@ -54,6 +59,7 @@ public class Sword extends GameObject {
 		getView().setRotate(-30);
 		setX(266);
 		setY(355);
+		blockDirection = BlockDir.downLeft;
 	}
 
 	public void setDownandRight() {
@@ -61,21 +67,29 @@ public class Sword extends GameObject {
 		getView().setRotate(30);
 		setX(369);
 		setY(355);
+		blockDirection = BlockDir.downRight;
 	}
-	
-	public void test(GraphicsContext gc){
+
+	public void test(GraphicsContext gc) {
 		Bounds n = getView().getBoundsInParent();
-		int x1 = (int) n.getMinX();
-		int y1 = (int) n.getMinY();
-		int x2 = (int) n.getMaxX();
-		int y2 = (int) n.getMaxY();
-		double m = (double)((double)(y2 - y1)/(double)(x2-x1));
-		double b = y1 - m * x1;
+		double x1 = n.getMinX();
+		double y1 = n.getMinY();
+		double x2 = n.getMaxX();
+		double y2 = n.getMaxY();
 		
+		if(blockDirection == BlockDir.upRight || blockDirection == BlockDir.downLeft){
+			double tmp = y1;
+			y1 = y2;
+			y2 = tmp;
+		}
+		
+		double m =  (y2 - y1) /  (x2 - x1);
+		double b = y1 - m * x1;
+
 		gc.setFill(Color.RED);
-		for(double i = x1; i <= x2; i++){
-			double j = m * i + b;
-			gc.fillOval(i, j, 1, 1);
+		for (double x = x1; x <= x2; x++) {
+			double y = m * x + b;
+			gc.fillOval(x, y, 3, 3);
 		}
 	}
 }

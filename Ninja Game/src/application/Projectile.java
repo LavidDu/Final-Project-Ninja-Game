@@ -1,22 +1,23 @@
 package application;
 
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 public class Projectile extends GameObject{
 
-	private Image sprite;
-	private int cx;
-	private int cy;
-	private int targetx;
-	private int targety;
+	private double cx;
+	private double cy;
+	private double targetx;
+	private double targety;
 	
-	public Projectile(int x, int y) {
+	public Projectile(double x, double y) {
 		super(new ImageView());
 		this.targetx = x;
 		this.targety = y;
-		
 		
 		getView().setImage(new Image("shuriken.png", 25, 20, true, false));
 	}
@@ -25,24 +26,36 @@ public class Projectile extends GameObject{
 		getView().setTranslateX(getView().getTranslateX() + getVelocity().getX());
 		getView().setTranslateY(getView().getTranslateY() + getVelocity().getY());
 		getView().setRotate(getView().getRotate() + 5);
-		cx = getX() + (int)getView().getTranslateX();
-		cy = getY() + (int)getView().getTranslateY();
+		cx = getX() + getView().getTranslateX();
+		cy = getY() + getView().getTranslateY();
 	}
 	
-	public void setCX(int x){
+	public void setCX(double x){
 		cx = x; 
 	}
 	
-	public int getCX(){
+	public double getCX(){
 		return cx;
 	}
 	
-	public void setCY(int y){
+	public void setCY(double y){
 		cy = y;
 	}
 	
-	public int getCY(){
+	public double getCY(){
 		return cy;
+	}
+	
+	public void test(GraphicsContext gc){
+		gc.setFill(Color.WHITE);
+		Bounds b = getView().getBoundsInParent();
+		for(double i = 0; i < 700; i++){
+			for(int j = 0; j < 700; j++){
+				if(b.contains(i, j)){
+					gc.fillOval(i, j, 1, 1);
+				}
+			}
+		}
 	}
 	
 	public boolean collideWithSword(Sword s){
