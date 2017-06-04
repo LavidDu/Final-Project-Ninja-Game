@@ -16,7 +16,7 @@ public class Projectile extends GameObject{
 		this.targetx = x;
 		this.targety = y;
 		
-		getView().setImage(new Image("/Images/shuriken.png", 25, 20, true, false));
+		getView().setImage(new Image("/Images/shuriken.png", 28, 28, true, false));
 	}
 	
 	public void update(){
