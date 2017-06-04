@@ -1,8 +1,10 @@
 package application;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -13,12 +15,16 @@ public  class Character extends GameObject{
 	private Image[] state;
 	private boolean alive;
 	private BlockDir blockDirection;
+	private final double targetX = 328;
+	private final double targetY = 346;
+	public Circle c = new Circle(targetX, targetY, 5);
 	
 	public Character(){
 		super(new ImageView());
 		setX(301);
 		setY(318);
-		
+			
+		c.setFill(Color.GREEN);
 		this.score = 0;
 		this.state = new Image[8];
 		this.blockDirection = BlockDir.rest;
@@ -34,6 +40,14 @@ public  class Character extends GameObject{
 		state[5] = new Image("/Images/DownRight.png", 70, 70, true, false);
 		state[6] = new Image("/Images/Up.png", 70, 70, true, false);
 		state[7] = new Image("/Images/Rest.png", 70, 70, true, false);
+	}
+	
+	public double getTargetX(){
+		return targetX;
+	}
+	
+	public double getTargetY(){
+		return targetY;
 	}
 	
 	public BlockDir getBlockDir(){
@@ -97,7 +111,6 @@ public  class Character extends GameObject{
 	public int getScore(){
 		return score;
 	}
-	
 
 	public boolean isAlive() {
 		return alive;

@@ -1,7 +1,6 @@
 package application;
 
 import java.util.ArrayList;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
@@ -15,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Driver extends Application {
@@ -43,7 +43,8 @@ public class Driver extends Application {
 		root.getChildren().add(player.getView());
 		root.getChildren().add(player.getText());
 		root.getChildren().add(sword.getView());
-
+		root.getChildren().add(player.c);
+		
 		AnimationTimer timer = new AnimationTimer() {
 			int i = 0;
 
@@ -52,21 +53,25 @@ public class Driver extends Application {
 				i++;
 				reset(gc);
 				updatePlayer();
-				
-				if(i % 60 == 0)for (int i = 0; i < 1; i++) {
-					Projectile p = new Projectile(player.getX(), player.getY());
-					p.setX((int) (Math.random() * 200) + 1);
-					p.setY((int) (Math.random() * 200) + 1);
-					p.setVelocity(2, 2);
-					projectiles.add(p);
-					root.getChildren().add(p.getView());
-				}
+				addProjectiles(i);
 				updateProjectiles();
 			}
 		};
 
 		timer.start();
 		return root;
+	}
+	
+	public void addProjectiles(int u){
+		if(u % 60 == 0)for (int i = 0; i < 1; i++) {
+			double x1 = Math.random() * 200 + 1;
+			double x2 = Math.random() * 240 + 400;
+			double x = Math.random() > 0.5 ? x1 : x2;
+			Projectile p = new Projectile(x, Math.random() * 300 + 1);
+			p.setVelocity(gc, x == x2);
+			projectiles.add(p);
+			root.getChildren().add(p.getView());
+		}
 	}
 	
 	public void updateProjectiles(){
@@ -76,9 +81,11 @@ public class Driver extends Application {
 			p.update();
 			if(sword.Collide(gc, p)){
 				player.updateScore(1);
-				//System.out.println(player.getScore());
 				root.getChildren().remove(p.getView());
 				p.setAlive(false);
+			}
+			if(p.collidewithPlayer() && p.isAlive()){
+				System.out.println("DEAD");
 			}
 		}
 	}

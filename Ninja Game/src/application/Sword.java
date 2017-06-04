@@ -1,7 +1,6 @@
 package application;
 
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -103,10 +102,10 @@ public class Sword extends GameObject {
 		double b = y1 - m * x1;
 
 		gc.setFill(Color.RED);
-		for (double x = x1; x <= x2; x++) {
+		for (double x = x1 + 2; x <= x2 - 2; x++) {
 			double y = m * x + b;
 			//gc.fillOval(x + 1, y + 1, 2, 2);
-			if(p.getBounds().contains(x + 1, y + 1)){
+			if(p.getBounds().contains(x + 1, y + 3)){
 				return true;
 			}
 		}
