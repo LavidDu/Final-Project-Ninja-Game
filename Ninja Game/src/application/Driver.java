@@ -11,18 +11,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.scene.image.*;
 
 public class Driver extends Application {
 
@@ -49,6 +42,15 @@ public class Driver extends Application {
 		root.getChildren().add(player.getView());
 		root.getChildren().add(sword.getView());
 		
+		for(int i = 0; i < 10; i++){
+			Projectile p = new Projectile(player.getX(), player.getY());
+			p.setX((int)(Math.random() * 200) + 1);
+			p.setY((int)(Math.random() * 200) + 1);
+			p.setVelocity(2, 2);
+			projectiles.add(p);
+			root.getChildren().add(p.getView());
+		}
+		
 		AnimationTimer timer = new AnimationTimer() {
 			int i = 0;
 			@Override
@@ -60,7 +62,9 @@ public class Driver extends Application {
 					if(p.collideWithSword(sword)){
 					}
 				}
+
 				if(i %10 ==0)for(int i = 0; i < 1; i++){
+
 					Projectile p = new Projectile(player.getX(), player.getY());
 					p.setX((int)(Math.random() * 200) + 1);
 					p.setY((int)(Math.random() * 200) + 1);
@@ -69,6 +73,7 @@ public class Driver extends Application {
 					root.getChildren().add(p.getView());
 				}
 				updatePlayer();
+				sword.test(gc);
 			}
 		};
 
@@ -100,7 +105,6 @@ public class Driver extends Application {
 			sword.setBlockDir(BlockDir.up);
 		}
 		player.switchState();
-		sword.test(gc);
 	}
 
 	public void reset(GraphicsContext gc) {

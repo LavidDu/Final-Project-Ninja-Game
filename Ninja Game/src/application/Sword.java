@@ -21,10 +21,6 @@ public class Sword extends GameObject {
 		state[0] = new Image("Sword.png", 40, 5, true, false);
 		state[1] = new Image("Sword2.png", 40, 5, true, false);
 	}
-	
-	public BlockDir getBlockDir() {
-		return blockDirection;
-	}
 
 
 	public void setBlockDir(BlockDir b) {
@@ -82,25 +78,26 @@ public class Sword extends GameObject {
 			setX(267);
 			setY(347);
 			break;
+			}
 		}
 		
-		
-	}
-	
-	
-	public void test(GraphicsContext gc){
+
+	public void test(GraphicsContext gc) {
+
 		Bounds n = getView().getBoundsInParent();
-		int x1 = (int) n.getMinX();
-		int y1 = (int) n.getMinY();
-		int x2 = (int) n.getMaxX();
-		int y2 = (int) n.getMaxY();
-		double m = (double)((double)(y2 - y1)/(double)(x2-x1));
-		double b = y1 - m * x1;
+		double x1 = n.getMinX();
+		double y1 = n.getMinY();
+		double x2 = n.getMaxX();
+		double y2 = n.getMaxY();
 		
+		
+		double m =  (y2 - y1) /  (x2 - x1);
+		double b = y1 - m * x1;
+
 		gc.setFill(Color.RED);
-		for(double i = x1; i <= x2; i++){
-			double j = m * i + b;
-			gc.fillOval(i, j, 1, 1);
+		for (double x = x1; x <= x2; x++) {
+			double y = m * x + b;
+			gc.fillOval(x, y, 3, 3);
 		}
 	}
 }
