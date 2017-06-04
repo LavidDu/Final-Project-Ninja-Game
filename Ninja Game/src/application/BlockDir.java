@@ -1,5 +1,5 @@
 package application;
 
 public enum BlockDir {
-	left, right, downLeft, downRight, upRight, upLeft
+	left, right, downLeft, downRight, upRight, upLeft, up, rest
 }

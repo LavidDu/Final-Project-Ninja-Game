@@ -17,8 +17,8 @@ public  class Character extends GameObject{
 		setY(318);
 		
 		this.score = 0;
-		this.state = new Image[6];
-		this.blockDirection = BlockDir.left;
+		this.state = new Image[8];
+		this.blockDirection = BlockDir.rest;
 		
 		state[0] = new Image("Left.png", 70, 70, true, false);
 		state[1] = new Image("Right.png", 70, 70, true, false);
@@ -26,6 +26,8 @@ public  class Character extends GameObject{
 		state[3] = new Image("UpRight.png", 70, 70, true, false);
 		state[4] = new Image("DownLeft.png", 70, 70, true, false);
 		state[5] = new Image("DownRight.png", 70, 70, true, false);
+		state[6] = new Image("Up.png", 70, 70, true, false);
+		state[7] = new Image("Rest.png", 70, 70, true, false);
 	}
 	
 	public BlockDir getBlockDir(){
@@ -39,24 +41,39 @@ public  class Character extends GameObject{
 	public void switchState(){
 		switch(blockDirection){
 		case left:
+			getView().setY(318);
 			getView().setImage(state[0]);
 			break;
 		case right:
+			getView().setY(318);
 			getView().setImage(state[1]);
 			break;
 		case upLeft:
+			getView().setY(318);
 			getView().setImage(state[2]);
 			break;
 		case upRight:
+			getView().setY(318);
 			getView().setImage(state[3]);
 			break;
 		case downLeft:
+			getView().setY(318);
 			getView().setImage(state[4]);
 			break;
 		case downRight:
+			getView().setY(318);
 			getView().setImage(state[5]);
 			break;
+		case up:
+			getView().setY(339);
+			getView().setImage(state[6]);
+			break;
+		case rest:
+			getView().setY(318);
+			getView().setImage(state[7]);
+			break;
 		}
+		
 		
 	}
 

@@ -57,15 +57,17 @@ public class Driver extends Application {
 				reset(gc);
 				for(Projectile p : projectiles){
 					p.update();
+					if(p.collideWithSword(sword)){
+					}
 				}
-				/*if(i %10 ==0)for(int i = 0; i < 1; i++){
+				if(i %10 ==0)for(int i = 0; i < 1; i++){
 					Projectile p = new Projectile(player.getX(), player.getY());
 					p.setX((int)(Math.random() * 200) + 1);
 					p.setY((int)(Math.random() * 200) + 1);
 					p.setVelocity(2, 2);
 					projectiles.add(p);
 					root.getChildren().add(p.getView());
-				}*/
+				}
 				updatePlayer();
 			}
 		};
@@ -77,30 +79,33 @@ public class Driver extends Application {
 	public void updatePlayer() {
 		if (leftPressed.get() && downPressed.get()) {
 			player.setBlockDir(BlockDir.downLeft);
-			sword.setDownandLeft();
+			sword.setBlockDir(BlockDir.downLeft);
 		} else if (rightPressed.get() && downPressed.get()) {
 			player.setBlockDir(BlockDir.downRight);
-			sword.setDownandRight();
+			sword.setBlockDir(BlockDir.downRight);
 		} else if (leftPressed.get() && upPressed.get()) {
 			player.setBlockDir(BlockDir.upLeft);
-			sword.setLeftandUp();
+			sword.setBlockDir(BlockDir.upLeft);
 		} else if (rightPressed.get() && upPressed.get()) {
 			player.setBlockDir(BlockDir.upRight);
-			sword.setRightandUp();
+			sword.setBlockDir(BlockDir.upRight);
 		} else if (leftPressed.get()) {
 			player.setBlockDir(BlockDir.left);
-			sword.setLeft();
+			sword.setBlockDir(BlockDir.left);
 		} else if (rightPressed.get()) {
 			player.setBlockDir(BlockDir.right);
-			sword.setRight();
+			sword.setBlockDir(BlockDir.right);
+		} else if (upPressed.get()){
+			player.setBlockDir(BlockDir.up);
+			sword.setBlockDir(BlockDir.up);
 		}
 		player.switchState();
 		sword.test(gc);
 	}
 
 	public void reset(GraphicsContext gc) {
-		player.setBlockDir(BlockDir.left);
-		sword.setLeft();
+		player.setBlockDir(BlockDir.rest);
+		sword.setBlockDir(BlockDir.rest);
 		gc.drawImage(background, 0, 0);
 	}
 
