@@ -59,7 +59,7 @@ public class Driver extends Application {
 				reset(gc);
 				for(Projectile p : projectiles){
 					p.update();
-
+					
 				}
 
 				if(i %240 ==0)for(int i = 0; i < 1; i++){
@@ -79,6 +79,7 @@ public class Driver extends Application {
 		timer.start();
 		return root;
 	}
+	
 
 	public void updatePlayer() {
 		if (leftPressed.get() && downPressed.get()) {
