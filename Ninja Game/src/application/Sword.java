@@ -84,7 +84,7 @@ public class Sword extends GameObject {
 		}
 	}
 
-	public void test(GraphicsContext gc) {
+	public boolean Collide(GraphicsContext gc, Projectile p) {
 
 		Bounds n = getView().getBoundsInParent();
 		double x1 = n.getMinX();
@@ -105,7 +105,11 @@ public class Sword extends GameObject {
 		gc.setFill(Color.RED);
 		for (double x = x1; x <= x2; x++) {
 			double y = m * x + b;
-			gc.fillOval(x, y, 3, 3);
+			//gc.fillOval(x + 1, y + 1, 2, 2);
+			if(p.getBounds().contains(x + 1, y + 1)){
+				return true;
+			}
 		}
+		return false;
 	}
 }

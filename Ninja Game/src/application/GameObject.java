@@ -1,5 +1,6 @@
 package application;
 
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 
@@ -9,9 +10,11 @@ public class GameObject {
 	private boolean alive = true;
 	private double x, y, velX, velY;
 	private Point2D velocity = new Point2D(0,0);
+	private Bounds bounds;
 	
 	public GameObject(ImageView view){
 		this.view = view;
+		this.bounds = view.getBoundsInParent();
 	}
 	
 	public ImageView getView(){
@@ -75,6 +78,14 @@ public class GameObject {
 
 	public void setVelY(double velY) {
 		this.velY = velY;
+	}
+	
+	public void updateBounds(){
+		bounds = view.getBoundsInParent();
+	}
+	
+	public Bounds getBounds(){
+		return bounds;
 	}
 	
 }

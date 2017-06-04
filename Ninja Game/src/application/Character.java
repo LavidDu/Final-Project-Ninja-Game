@@ -2,11 +2,14 @@ package application;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public  class Character extends GameObject{
 	
 	private int score;
-	
+	private Text score_text;
 	private Image[] state;
 	private boolean alive;
 	private BlockDir blockDirection;
@@ -19,6 +22,9 @@ public  class Character extends GameObject{
 		this.score = 0;
 		this.state = new Image[8];
 		this.blockDirection = BlockDir.rest;
+		this.score_text = new Text(20, 450, "Score: 0");
+		score_text.setFill(Color.GOLD);
+		score_text.setFont(new Font(40));
 		
 		state[0] = new Image("/Images/Left.png", 70, 70, true, false);
 		state[1] = new Image("/Images/Right.png", 70, 70, true, false);
@@ -36,6 +42,14 @@ public  class Character extends GameObject{
 	
 	public void setBlockDir(BlockDir b){
 		blockDirection = b;
+	}
+	
+	public void setText(String s){
+		score_text.setText(s);
+	}
+	
+	public Text getText(){
+		return score_text;
 	}
 	
 	public void switchState(){
@@ -74,6 +88,16 @@ public  class Character extends GameObject{
 			break;
 		}
 	}
+	
+	public void updateScore(int s){
+		score += s;
+		setText("Score: " + score);
+	}
+	
+	public int getScore(){
+		return score;
+	}
+	
 
 	public boolean isAlive() {
 		return alive;

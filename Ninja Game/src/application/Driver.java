@@ -23,6 +23,7 @@ public class Driver extends Application {
 	public Character player;
 	public Sword sword;
 	public Image background = new Image("/Images/BackGround.png", 650, 400, true, false);
+	public Image scoreboard = new Image("/Images/ScoreBoard.png", 650, 150, true, false);
 	public GraphicsContext gc;
 	public BooleanProperty upPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty downPressed = new SimpleBooleanProperty(false);
@@ -32,7 +33,7 @@ public class Driver extends Application {
 
 	public Parent createContent() {
 		root = new Pane();
-		Canvas canvas = new Canvas(650, 400);
+		Canvas canvas = new Canvas(650, background.getHeight() + scoreboard.getHeight());
 		root.getChildren().add(canvas);
 
 		gc = canvas.getGraphicsContext2D();
@@ -40,6 +41,7 @@ public class Driver extends Application {
 		sword = new Sword();
 		projectiles = new ArrayList<>();
 		root.getChildren().add(player.getView());
+		root.getChildren().add(player.getText());
 		root.getChildren().add(sword.getView());
 
 		AnimationTimer timer = new AnimationTimer() {
@@ -49,23 +51,17 @@ public class Driver extends Application {
 			public void handle(long startNanoTime) {
 				i++;
 				reset(gc);
-				for (Projectile p : projectiles) {
-					p.update();
-					
-				}
-
-				if (i % 240 == 0)
-					for (int i = 0; i < 1; i++) {
-
-						Projectile p = new Projectile(player.getX(), player.getY());
-						p.setX((int) (Math.random() * 200) + 1);
-						p.setY((int) (Math.random() * 200) + 1);
-						p.setVelocity(2, 2);
-						projectiles.add(p);
-						root.getChildren().add(p.getView());
-					}
 				updatePlayer();
-				sword.test(gc);
+				
+				if(i % 60 == 0)for (int i = 0; i < 1; i++) {
+					Projectile p = new Projectile(player.getX(), player.getY());
+					p.setX((int) (Math.random() * 200) + 1);
+					p.setY((int) (Math.random() * 200) + 1);
+					p.setVelocity(2, 2);
+					projectiles.add(p);
+					root.getChildren().add(p.getView());
+				}
+				updateProjectiles();
 			}
 		};
 
@@ -73,6 +69,19 @@ public class Driver extends Application {
 		return root;
 	}
 	
+	public void updateProjectiles(){
+		for (Projectile p : projectiles) {
+			if(!p.isAlive())
+				continue;
+			p.update();
+			if(sword.Collide(gc, p)){
+				player.updateScore(1);
+				//System.out.println(player.getScore());
+				root.getChildren().remove(p.getView());
+				p.setAlive(false);
+			}
+		}
+	}
 
 	public void updatePlayer() {
 		if (downPressed.get() && leftPressed.get()) {
@@ -105,6 +114,7 @@ public class Driver extends Application {
 		player.setBlockDir(BlockDir.rest);
 		sword.setBlockDir(BlockDir.rest);
 		gc.drawImage(background, 0, 0);
+		gc.drawImage(scoreboard, 0, background.getHeight());
 	}
 
 	@Override

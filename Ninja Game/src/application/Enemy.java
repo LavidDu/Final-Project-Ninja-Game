@@ -3,8 +3,8 @@ package application;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Enemy extends GameObject{
-	
+public class Enemy extends GameObject {
+
 	private Image[] state;
 	private EnemyState enemyState;
 	private boolean right;
@@ -16,10 +16,10 @@ public class Enemy extends GameObject{
 		super(new ImageView());
 		setX(x);
 		setY(y);
-		
+
 		this.state = new Image[8];
 		this.enemyState = EnemyState.standingR;
-		
+
 		state[0] = new Image("/Images/StandingR.png", 70, 70, true, false);
 		state[1] = new Image("/Images/SlidingR.png", 70, 70, true, false);
 		state[2] = new Image("/Images/JumpingR.png", 70, 70, true, false);
@@ -28,12 +28,13 @@ public class Enemy extends GameObject{
 		state[5] = new Image("/Images/SlidingL.png", 70, 70, true, false);
 		state[6] = new Image("/Images/JumpingL.png", 70, 70, true, false);
 		state[7] = new Image("/Images/ThrowingL.png", 70, 70, true, false);
-		if(getView().getTranslateX() < 0){
+		if (getView().getTranslateX() < 0) {
 			right = true;
 		}
 	}
-	public void switchState(){
-		switch (enemyState){
+
+	public void switchState() {
+		switch (enemyState) {
 		case standingR:
 			getView().setImage(state[0]);
 			break;
@@ -60,17 +61,13 @@ public class Enemy extends GameObject{
 			break;
 		}
 	}
-	
-/*	public EnemyState setEnemyState(){
-		if (right){
-			if(getVelocity().getX() == 0 && getVelocity().getY() == 0){
-				return EnemyState.standingR;
-				
-			}
-			if(getView().getTranslateX() > 270 && getView().getTranslateX() < 300 && getView().getTranslateY() == 330){
-				return EnemyState.slidingR;
-			}
-		}
-		return null;
-	}*/
+
+	/*
+	 * public EnemyState setEnemyState(){ if (right){ if(getVelocity().getX() ==
+	 * 0 && getVelocity().getY() == 0){ return EnemyState.standingR;
+	 * 
+	 * } if(getView().getTranslateX() > 270 && getView().getTranslateX() < 300
+	 * && getView().getTranslateY() == 330){ return EnemyState.slidingR; } }
+	 * return null; }
+	 */
 }
