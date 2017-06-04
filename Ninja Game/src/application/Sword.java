@@ -20,16 +20,19 @@ public class Sword extends GameObject {
 		this.state = new Image[2];
 		state[0] = new Image("/Images/Sword.png", 40, 5, true, false);
 		state[1] = new Image("/Images/Sword2.png", 40, 5, true, false);
+		this.blockDirection = BlockDir.rest;
 	}
-
 
 	public void setBlockDir(BlockDir b) {
 		blockDirection = b;
 	}
 
-	
-	public void switchState(){
-		switch(blockDirection){
+	public BlockDir getBlockDir() {
+		return blockDirection;
+	}
+
+	public void switchState() {
+		switch (blockDirection) {
 		case left:
 			getView().setImage(state[0]);
 			getView().setRotate(0);
@@ -51,7 +54,7 @@ public class Sword extends GameObject {
 		case upRight:
 			getView().setImage(state[1]);
 			getView().setRotate(-25);
-			setX(369);
+			setX(368);
 			setY(322);
 			break;
 		case downLeft:
@@ -63,14 +66,14 @@ public class Sword extends GameObject {
 		case downRight:
 			getView().setImage(state[1]);
 			getView().setRotate(30);
-			setX(369);
+			setX(368);
 			setY(355);
 			break;
 		case up:
 			getView().setImage(state[1]);
 			getView().setRotate(-25);
-			setX(331);
-			setY(330);
+			setX(330);
+			setY(332);
 			break;
 		case rest:
 			getView().setImage(state[0]);
@@ -78,9 +81,8 @@ public class Sword extends GameObject {
 			setX(275);
 			setY(355);
 			break;
-			}
 		}
-		
+	}
 
 	public void test(GraphicsContext gc) {
 
@@ -89,9 +91,15 @@ public class Sword extends GameObject {
 		double y1 = n.getMinY();
 		double x2 = n.getMaxX();
 		double y2 = n.getMaxY();
-		
-		
-		double m =  (y2 - y1) /  (x2 - x1);
+
+		if (blockDirection == BlockDir.up || blockDirection == BlockDir.downLeft
+				|| blockDirection == BlockDir.upRight) {
+			double tmp = y1;
+			y1 = y2;
+			y2 = tmp;
+		}
+
+		double m = (y2 - y1) / (x2 - x1);
 		double b = y1 - m * x1;
 
 		gc.setFill(Color.RED);
@@ -101,6 +109,3 @@ public class Sword extends GameObject {
 		}
 	}
 }
-
-
-

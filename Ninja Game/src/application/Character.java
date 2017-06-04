@@ -61,6 +61,7 @@ public  class Character extends GameObject{
 			getView().setImage(state[4]);
 			break;
 		case downRight:
+			setY(318);
 			getView().setImage(state[5]);
 			break;
 		case up:
@@ -72,8 +73,6 @@ public  class Character extends GameObject{
 			getView().setImage(state[7]);
 			break;
 		}
-		
-		
 	}
 
 	public boolean isAlive() {

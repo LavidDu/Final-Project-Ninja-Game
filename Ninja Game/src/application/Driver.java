@@ -41,36 +41,29 @@ public class Driver extends Application {
 		projectiles = new ArrayList<>();
 		root.getChildren().add(player.getView());
 		root.getChildren().add(sword.getView());
-		
-		for(int i = 0; i < 10; i++){
-			Projectile p = new Projectile(player.getX(), player.getY());
-			p.setX((int)(Math.random() * 200) + 1);
-			p.setY((int)(Math.random() * 200) + 1);
-			p.setVelocity(2, 2);
-			projectiles.add(p);
-			root.getChildren().add(p.getView());
-		}
-		
+
 		AnimationTimer timer = new AnimationTimer() {
 			int i = 0;
+
 			@Override
 			public void handle(long startNanoTime) {
 				i++;
 				reset(gc);
-				for(Projectile p : projectiles){
+				for (Projectile p : projectiles) {
 					p.update();
 					
 				}
 
-				if(i %240 ==0)for(int i = 0; i < 1; i++){
+				if (i % 240 == 0)
+					for (int i = 0; i < 1; i++) {
 
-					Projectile p = new Projectile(player.getX(), player.getY());
-					p.setX((int)(Math.random() * 200) + 1);
-					p.setY((int)(Math.random() * 200) + 1);
-					p.setVelocity(2, 2);
-					projectiles.add(p);
-					root.getChildren().add(p.getView());
-				}
+						Projectile p = new Projectile(player.getX(), player.getY());
+						p.setX((int) (Math.random() * 200) + 1);
+						p.setY((int) (Math.random() * 200) + 1);
+						p.setVelocity(2, 2);
+						projectiles.add(p);
+						root.getChildren().add(p.getView());
+					}
 				updatePlayer();
 				sword.test(gc);
 			}
@@ -82,10 +75,10 @@ public class Driver extends Application {
 	
 
 	public void updatePlayer() {
-		if (leftPressed.get() && downPressed.get()) {
+		if (downPressed.get() && leftPressed.get()) {
 			player.setBlockDir(BlockDir.downLeft);
 			sword.setBlockDir(BlockDir.downLeft);
-		} else if (rightPressed.get() && downPressed.get()) {
+		} else if (downPressed.get() && rightPressed.get()) {
 			player.setBlockDir(BlockDir.downRight);
 			sword.setBlockDir(BlockDir.downRight);
 		} else if (leftPressed.get() && upPressed.get()) {
@@ -94,15 +87,15 @@ public class Driver extends Application {
 		} else if (rightPressed.get() && upPressed.get()) {
 			player.setBlockDir(BlockDir.upRight);
 			sword.setBlockDir(BlockDir.upRight);
+		} else if (upPressed.get() || downPressed.get()) {
+			player.setBlockDir(BlockDir.up);
+			sword.setBlockDir(BlockDir.up);
 		} else if (leftPressed.get()) {
 			player.setBlockDir(BlockDir.left);
 			sword.setBlockDir(BlockDir.left);
 		} else if (rightPressed.get()) {
 			player.setBlockDir(BlockDir.right);
 			sword.setBlockDir(BlockDir.right);
-		} else if (upPressed.get() || downPressed.get()){
-			player.setBlockDir(BlockDir.up);
-			sword.setBlockDir(BlockDir.up);
 		}
 		player.switchState();
 		sword.switchState();
