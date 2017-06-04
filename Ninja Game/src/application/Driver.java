@@ -22,7 +22,7 @@ public class Driver extends Application {
 	public Pane root;
 	public Character player;
 	public Sword sword;
-	public Image background = new Image("BackGround.png", 650, 400, true, false);
+	public Image background = new Image("/Images/BackGround.png", 650, 400, true, false);
 	public GraphicsContext gc;
 	public BooleanProperty upPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty downPressed = new SimpleBooleanProperty(false);
@@ -59,11 +59,10 @@ public class Driver extends Application {
 				reset(gc);
 				for(Projectile p : projectiles){
 					p.update();
-					if(p.collideWithSword(sword)){
-					}
+
 				}
 
-				if(i %10 ==0)for(int i = 0; i < 1; i++){
+				if(i %240 ==0)for(int i = 0; i < 1; i++){
 
 					Projectile p = new Projectile(player.getX(), player.getY());
 					p.setX((int)(Math.random() * 200) + 1);
@@ -100,11 +99,12 @@ public class Driver extends Application {
 		} else if (rightPressed.get()) {
 			player.setBlockDir(BlockDir.right);
 			sword.setBlockDir(BlockDir.right);
-		} else if (upPressed.get()){
+		} else if (upPressed.get() || downPressed.get()){
 			player.setBlockDir(BlockDir.up);
 			sword.setBlockDir(BlockDir.up);
 		}
 		player.switchState();
+		sword.switchState();
 	}
 
 	public void reset(GraphicsContext gc) {

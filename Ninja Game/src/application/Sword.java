@@ -18,8 +18,8 @@ public class Sword extends GameObject {
 		setY(347);
 
 		this.state = new Image[2];
-		state[0] = new Image("Sword.png", 40, 5, true, false);
-		state[1] = new Image("Sword2.png", 40, 5, true, false);
+		state[0] = new Image("/Images/Sword.png", 40, 5, true, false);
+		state[1] = new Image("/Images/Sword2.png", 40, 5, true, false);
 	}
 
 
@@ -74,9 +74,9 @@ public class Sword extends GameObject {
 			break;
 		case rest:
 			getView().setImage(state[0]);
-			getView().setRotate(7);
-			setX(267);
-			setY(347);
+			getView().setRotate(0);
+			setX(275);
+			setY(355);
 			break;
 			}
 		}
