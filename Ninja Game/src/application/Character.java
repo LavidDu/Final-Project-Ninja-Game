@@ -17,14 +17,12 @@ public  class Character extends GameObject{
 	private BlockDir blockDirection;
 	private final double targetX = 328;
 	private final double targetY = 346;
-	public Circle c = new Circle(targetX, targetY, 5);
 	
 	public Character(){
 		super(new ImageView());
 		setX(301);
 		setY(318);
 			
-		c.setFill(Color.GREEN);
 		this.score = 0;
 		this.state = new Image[8];
 		this.blockDirection = BlockDir.rest;

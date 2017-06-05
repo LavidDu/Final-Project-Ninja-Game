@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -24,18 +26,28 @@ public class Driver extends Application {
 	public Sword sword;
 	public Image background = new Image("/Images/BackGround.png", 650, 400, true, false);
 	public Image scoreboard = new Image("/Images/ScoreBoard.png", 650, 150, true, false);
+	public Image bloodsplatter = new Image("/Images/bloodsplatter.png", 100, 100, true, false);
 	public GraphicsContext gc;
 	public BooleanProperty upPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty downPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty leftPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty rightPressed = new SimpleBooleanProperty(false);
 	public ArrayList<Projectile> projectiles;
+	public AnimationTimer timer;
+
+	public MenuBar menuBar;
+	public Menu fileMenu;
 
 	public Parent createContent() {
+
+		menuBar = new MenuBar();
+		fileMenu = new Menu("File");
+		menuBar.getMenus().add(fileMenu);
+
 		root = new Pane();
 		Canvas canvas = new Canvas(650, background.getHeight() + scoreboard.getHeight());
 		root.getChildren().add(canvas);
-
+		
 		gc = canvas.getGraphicsContext2D();
 		player = new Character();
 		sword = new Sword();
@@ -43,9 +55,8 @@ public class Driver extends Application {
 		root.getChildren().add(player.getView());
 		root.getChildren().add(player.getText());
 		root.getChildren().add(sword.getView());
-		root.getChildren().add(player.c);
-		
-		AnimationTimer timer = new AnimationTimer() {
+
+		timer = new AnimationTimer() {
 			int i = 0;
 
 			@Override
@@ -54,38 +65,40 @@ public class Driver extends Application {
 				reset(gc);
 				updatePlayer();
 				addProjectiles(i);
-				updateProjectiles();
+				updateProjectiles(timer);
 			}
 		};
 
 		timer.start();
 		return root;
 	}
-	
-	public void addProjectiles(int u){
-		if(u % 60 == 0)for (int i = 0; i < 1; i++) {
-			double x1 = Math.random() * 200 + 1;
-			double x2 = Math.random() * 240 + 400;
-			double x = Math.random() > 0.5 ? x1 : x2;
-			Projectile p = new Projectile(x, Math.random() * 300 + 1);
-			p.setVelocity(gc, x == x2);
-			projectiles.add(p);
-			root.getChildren().add(p.getView());
-		}
+
+	public void addProjectiles(int u) {
+		if (u % 60 == 0)
+			for (int i = 0; i < 1; i++) {
+				double x1 = Math.random() * 200 + 1;
+				double x2 = Math.random() * 240 + 400;
+				double x = Math.random() > 0.5 ? x1 : x2;
+				Projectile p = new Projectile(x, Math.random() * 300 + 1);
+				p.setVelocity(gc, x == x2);
+				projectiles.add(p);
+				root.getChildren().add(p.getView());
+			}
 	}
-	
-	public void updateProjectiles(){
+
+	public void updateProjectiles(AnimationTimer timer) {
 		for (Projectile p : projectiles) {
-			if(!p.isAlive())
+			if (!p.isAlive())
 				continue;
 			p.update();
-			if(sword.Collide(gc, p)){
+			if (sword.Collide(gc, p)) {
 				player.updateScore(1);
 				root.getChildren().remove(p.getView());
 				p.setAlive(false);
 			}
-			if(p.collidewithPlayer() && p.isAlive()){
-				System.out.println("DEAD");
+			if (p.collidewithPlayer() && p.isAlive()) {
+				gc.drawImage(bloodsplatter, player.getTargetX() -30 , player.getTargetY() - 30);
+				timer.stop();
 			}
 		}
 	}
@@ -160,11 +173,12 @@ public class Driver extends Application {
 				}
 				if (event.getCode() == KeyCode.LEFT) {
 					leftPressed.set(false);
-				}
+				} 
 				if (event.getCode() == KeyCode.RIGHT) {
 					rightPressed.set(false);
 				}
 			}
+
 		});
 		stage.show();
 	}
