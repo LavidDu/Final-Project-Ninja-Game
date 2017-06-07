@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
@@ -10,13 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Driver extends Application {
@@ -27,6 +27,7 @@ public class Driver extends Application {
 	public Image background = new Image("/Images/BackGround.png", 650, 400, true, false);
 	public Image scoreboard = new Image("/Images/ScoreBoard.png", 650, 150, true, false);
 	public Image bloodsplatter = new Image("/Images/bloodsplatter.png", 100, 100, true, false);
+	public Image EndGameScreen = new Image("/Images/EndGameScreen.png", 400, 220, true, false);
 	public GraphicsContext gc;
 	public BooleanProperty upPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty downPressed = new SimpleBooleanProperty(false);
@@ -35,14 +36,7 @@ public class Driver extends Application {
 	public ArrayList<Projectile> projectiles;
 	public AnimationTimer timer;
 
-	public MenuBar menuBar;
-	public Menu fileMenu;
-
 	public Parent createContent() {
-
-		menuBar = new MenuBar();
-		fileMenu = new Menu("File");
-		menuBar.getMenus().add(fileMenu);
 
 		root = new Pane();
 		Canvas canvas = new Canvas(650, background.getHeight() + scoreboard.getHeight());
@@ -98,6 +92,11 @@ public class Driver extends Application {
 			}
 			if (p.collidewithPlayer() && p.isAlive()) {
 				gc.drawImage(bloodsplatter, player.getTargetX() -30 , player.getTargetY() - 30);
+				root.getChildren().remove(player.getText());
+				gc.drawImage(EndGameScreen, 140, 100);
+				gc.setFont(new Font(32));
+				gc.setFill(Color.WHITE);
+				gc.fillText("Score: " + player.getScore(), 265, 260);
 				timer.stop();
 			}
 		}
@@ -181,10 +180,6 @@ public class Driver extends Application {
 
 		});
 		stage.show();
-	}
-
-	public void stop() {
-
 	}
 
 	public static void main(String[] args) {
