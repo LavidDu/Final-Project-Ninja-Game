@@ -1,6 +1,8 @@
 package application;
 
 import java.util.ArrayList;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
@@ -12,7 +14,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -27,6 +31,10 @@ public class Driver extends Application {
 	public Image background = new Image("/Images/BackGround.png", 650, 400, true, false);
 	public Image scoreboard = new Image("/Images/ScoreBoard.png", 650, 150, true, false);
 	public Image bloodsplatter = new Image("/Images/bloodsplatter.png", 100, 100, true, false);
+	public Image menubackground = new Image("/Images/menubackground.png", 650,550, true, false);
+	public Image instructionsbg = new Image("/Images/instructionsbackground.png",650,550,true,false);
+	public ImageView playbutton = new ImageView(new Image("/Images/playbutton.png",80,80,true,false));
+	public ImageView instructionbutton = new ImageView(new Image("/Images/questionmark.png",80,80,true,false));
 	public GraphicsContext gc;
 	public BooleanProperty upPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty downPressed = new SimpleBooleanProperty(false);
@@ -37,8 +45,11 @@ public class Driver extends Application {
 
 	public MenuBar menuBar;
 	public Menu fileMenu;
+	
+	public Stage window;
+	public Scene menu,instructions,game;
 
-	public Parent createContent() {
+	public Parent createGame() {
 
 		menuBar = new MenuBar();
 		fileMenu = new Menu("File");
@@ -71,6 +82,48 @@ public class Driver extends Application {
 
 		timer.start();
 		return root;
+	}
+	
+	public Parent createMenu(){
+		root= new Pane();
+		Canvas canvas= new Canvas(650,550);
+		gc=canvas.getGraphicsContext2D();
+		gc.drawImage(menubackground,0,0);
+		
+		Button play=new Button();
+		play.setOnAction(e-> reset(gc));
+		play.setOnAction(e -> window.setScene(game));
+		play.setLayoutX(450);
+		play.setLayoutY(340);
+		play.setGraphic(playbutton);
+		
+		Button ins=new Button();
+		ins.setOnAction(e-> reset(gc));
+		ins.setOnAction(e -> window.setScene(instructions));
+		ins.setLayoutX(450);
+		ins.setLayoutY(450);
+		ins.setGraphic(instructionbutton);
+		
+		root.getChildren().addAll(canvas, play, ins);
+		return root;
+	}
+	
+	public Parent createInstructions(){
+		root= new Pane();
+		Canvas canvas= new Canvas(650,550);
+		gc=canvas.getGraphicsContext2D();
+		gc.drawImage(instructionsbg,0,0);
+		
+		Button play=new Button();
+		play.setOnAction(e-> reset(gc));
+		play.setOnAction(e -> window.setScene(game));
+		play.setLayoutX(450);
+		play.setLayoutY(400);
+		play.setGraphic(playbutton);
+		
+		root.getChildren().addAll(canvas, play);
+		return root;
+		
 	}
 
 	public void addProjectiles(int u) {
@@ -139,11 +192,14 @@ public class Driver extends Application {
 
 	@Override
 	public void start(Stage stage) {
+		window=stage;
 
-		Scene scene = new Scene(createContent());
-		stage.setScene(scene);
-
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		menu=new Scene(createMenu());
+		instructions=new Scene(createInstructions());
+		game = new Scene(createGame());
+		
+		window.setScene(menu);
+		game.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.UP) {
@@ -159,10 +215,11 @@ public class Driver extends Application {
 					rightPressed.set(true);
 				}
 			}
+			
 
 		});
 
-		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+		game.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.UP) {
