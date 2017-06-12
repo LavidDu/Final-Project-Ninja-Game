@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 /**
  * 
- * @author Para Internet
+ * @author Andreas Alvear, David Lu, Joey Zhong, Nicholas Ting
  *
  */
 public  class Character extends GameObject{

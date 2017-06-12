@@ -24,7 +24,7 @@ import javafx.scene.control.Button;
 /**
  * Main driver
  * 
- * @author Andreas Alvear
+ * @author Andreas Alvear, David Lu, Joey Zhong, Nicholas Ting
  * 
  */
 public class Driver extends Application {

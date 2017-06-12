@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 /**
- * Projectile class (shirukens). Not completely operational.
- * @author Andreas Alvear
+ * Projectile class (shirukens).
+ * @author Andreas Alvear, David Lu, Joey Zhong, Nicholas Ting
  *
  */
 public class Projectile extends GameObject {

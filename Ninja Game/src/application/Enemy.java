@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 /**
  * Enemy class -> incompleted as of submission
- * @author Andreas Alvear
+ * @author Andreas Alvear, David Lu, Joey Zhong, Nicholas Ting
  *
  */
 public class Enemy extends GameObject {

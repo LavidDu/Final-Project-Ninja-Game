@@ -3,7 +3,7 @@ package application;
 /**
  * which way the character is pointing
  * 
- * @author Andreas Alvear
+ * @author Andreas Alvear, David Lu, Joey Zhong, Nicholas Ting
  *
  */
 public enum BlockDir {

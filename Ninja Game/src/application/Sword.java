@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 /**
  * Sword Class
- * @author Andreas Alvear
+ * @author Andreas Alvear, David Lu, Joey Zhong, Nicholas Ting
  *
  */
 public class Sword extends GameObject {

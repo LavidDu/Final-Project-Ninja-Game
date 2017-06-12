@@ -5,7 +5,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 /**
  * 
- * @author Andreas Alvear
+ * @author Andreas Alvear, David Lu, Joey Zhong, Nicholas Ting
  *Game object superclass
  */
 public class GameObject {
