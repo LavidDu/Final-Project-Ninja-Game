@@ -7,17 +7,20 @@ import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
 public class Driver extends Application {
 
@@ -28,6 +31,10 @@ public class Driver extends Application {
 	public Image scoreboard = new Image("/Images/ScoreBoard.png", 650, 150, true, false);
 	public Image bloodsplatter = new Image("/Images/bloodsplatter.png", 100, 100, true, false);
 	public Image EndGameScreen = new Image("/Images/EndGameScreen.png", 400, 220, true, false);
+	public Image menubackground = new Image("/Images/menubackground.png", 650, 550, true, false);
+	public Image instructionsbg= new Image("/Images/instructionsbackground.png", 650, 550, true, false);
+	public ImageView playbutton = new ImageView(new Image("/Images/playbutton.png", 80, 80, true, false));
+	public ImageView instructionbutton = new ImageView(new Image("/Images/questionmark.png", 80, 80, true, false));
 	public GraphicsContext gc;
 	public BooleanProperty upPressed = new SimpleBooleanProperty(false);
 	public BooleanProperty downPressed = new SimpleBooleanProperty(false);
@@ -35,8 +42,13 @@ public class Driver extends Application {
 	public BooleanProperty rightPressed = new SimpleBooleanProperty(false);
 	public ArrayList<Projectile> projectiles;
 	public AnimationTimer timer;
+	
+	public boolean begin=false;
 
-	public Parent createContent() {
+	public Stage window;
+	public Scene menu,instructions, game;
+	
+	public Parent createGame() {
 
 		root = new Pane();
 		Canvas canvas = new Canvas(650, background.getHeight() + scoreboard.getHeight());
@@ -66,17 +78,72 @@ public class Driver extends Application {
 		timer.start();
 		return root;
 	}
+	
+	public Parent createMenu(){
+		root=new Pane();
+		Canvas canvas= new Canvas(650,550);
+		gc=canvas.getGraphicsContext2D();
+		gc.drawImage(menubackground, 0, 0);
+		
+		Button play=new Button();
+		play.setOnAction(new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent e){
+				reset(gc);
+				begin=true;
+				window.setScene(game);
+				
+			}
+		});
+		play.setLayoutX(450);
+		play.setLayoutY(340);
+		play.setGraphic(playbutton);
+		
+		Button ins=new Button();
+		ins.setOnAction(e->reset(gc));
+		ins.setOnAction(e-> window.setScene(instructions));
+		ins.setLayoutX(450);
+		ins.setLayoutY(450);
+		ins.setGraphic(instructionbutton);
+		
+		root.getChildren().addAll(canvas,play,ins);
+		return root;
+		
+	}
+	
+	public Parent createInstructions(){
+		root=new Pane();
+		Canvas canvas= new Canvas(650,550);
+		gc=canvas.getGraphicsContext2D();
+		gc.drawImage(instructionsbg, 0, 0);
+		
+		Button play=new Button();
+		play.setOnAction(new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent e){
+				reset(gc);
+				begin=true;
+				window.setScene(game);
+				
+			}
+		});
+		play.setLayoutX(450);
+		play.setLayoutY(400);
+		play.setGraphic(playbutton);
+		
+		root.getChildren().addAll(canvas,play);
+		return root;
+	}
 
 	public void addProjectiles(int u) {
 		if (u % 60 == 0)
-			for (int i = 0; i < 1; i++) {
-				double x1 = Math.random() * 200 + 1;
-				double x2 = Math.random() * 240 + 400;
-				double x = Math.random() > 0.5 ? x1 : x2;
-				Projectile p = new Projectile(x, Math.random() * 300 + 1);
-				p.setVelocity(gc, x == x2);
-				projectiles.add(p);
-				root.getChildren().add(p.getView());
+			if (begin==true)
+				for (int i = 0; i < 1; i++) {
+					double x1 = Math.random() * 200 + 1;
+					double x2 = Math.random() * 240 + 400;
+					double x = Math.random() > 0.5 ? x1 : x2;
+					Projectile p = new Projectile(x, Math.random() * 300 + 1);
+					p.setVelocity(gc, x == x2);
+					projectiles.add(p);
+					root.getChildren().add(p.getView());
 			}
 	}
 
@@ -138,11 +205,15 @@ public class Driver extends Application {
 
 	@Override
 	public void start(Stage stage) {
+		window=stage;
 
-		Scene scene = new Scene(createContent());
-		stage.setScene(scene);
+		menu=new Scene(createMenu());
+		instructions=new Scene(createInstructions());
+		game=new Scene(createGame());
+		
+		window.setScene(menu);
 
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		game.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.UP) {
@@ -161,7 +232,7 @@ public class Driver extends Application {
 
 		});
 
-		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+		game.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.UP) {
@@ -179,7 +250,7 @@ public class Driver extends Application {
 			}
 
 		});
-		stage.show();
+		window.show();
 	}
 
 	public static void main(String[] args) {
