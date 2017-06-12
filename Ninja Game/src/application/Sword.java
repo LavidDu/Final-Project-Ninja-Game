@@ -5,12 +5,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-
+/**
+ * Sword Class
+ * @author Andreas Alvear
+ *
+ */
 public class Sword extends GameObject {
 
 	private Image[] state;
 	private BlockDir blockDirection;
-
+	
+	/**
+	 * Constructor
+	 */
 	public Sword() {
 		super(new ImageView());
 		setX(263);
@@ -21,15 +28,26 @@ public class Sword extends GameObject {
 		state[1] = new Image("/Images/Sword2.png", 40, 5, true, false);
 		this.blockDirection = BlockDir.rest;
 	}
-
+	
+	/**
+	 * Changes BlockDir enum
+	 * @param b new block direction
+	 */
 	public void setBlockDir(BlockDir b) {
 		blockDirection = b;
 	}
-
+	
+	/**
+	 * Gets BlockDir enum
+	 * @return direction of Block
+	 */
 	public BlockDir getBlockDir() {
 		return blockDirection;
 	}
-
+	
+	/**
+	 * Updates state based on BlockDir enum
+	 */
 	public void switchState() {
 		switch (blockDirection) {
 		case left:
@@ -82,7 +100,13 @@ public class Sword extends GameObject {
 			break;
 		}
 	}
-
+	
+	/**
+	 * Checks if collision with projectile objects have occured
+	 * @param gc graphics context 2D used to update visuals
+	 * @param p projectile with which to collide
+	 * @return whether a collision has occurred or not
+	 */
 	public boolean Collide(GraphicsContext gc, Projectile p) {
 
 		Bounds n = getView().getBoundsInParent();

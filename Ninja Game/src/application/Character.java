@@ -6,7 +6,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/**
+ * 
+ * @author Para Internet
+ *
+ */
 public  class Character extends GameObject{
+	
 	
 	private int score;
 	private Text score_text;
@@ -16,6 +22,9 @@ public  class Character extends GameObject{
 	private final double targetX = 328;
 	private final double targetY = 346;
 	
+	/**
+	 * Constructor class for the character, places it in the right spot at rest
+	 */
 	public Character(){
 		super(new ImageView());
 		setX(301);
@@ -46,22 +55,40 @@ public  class Character extends GameObject{
 		return targetY;
 	}
 	
+	/**
+	 * Block direction
+	 * @return block direction
+	 */
 	public BlockDir getBlockDir(){
 		return blockDirection;
 	}
 	
+	/**
+	 * Change block direction enum, not actual 
+	 * @param b new block direction enum
+	 */
 	public void setBlockDir(BlockDir b){
 		blockDirection = b;
 	}
 	
+	/**
+	 * Change score
+	 */
 	public void setText(String s){
 		score_text.setText(s);
 	}
 	
+	/**
+	 * Get score
+	 * @return score
+	 */
 	public Text getText(){
 		return score_text;
 	}
 	
+	/**
+	 * Actually changes the state of the character based on BlockDir enum
+	 */
 	public void switchState(){
 		switch(blockDirection){
 		case left:
@@ -99,19 +126,33 @@ public  class Character extends GameObject{
 		}
 	}
 	
+	/**
+	 * Update score text
+	 * @param s score increase
+	 */
 	public void updateScore(int s){
 		score += s;
 		setText("Score: " + score);
 	}
-	
+	/**
+	 * Get score
+	 * @return the score of the character
+	 */
 	public int getScore(){
 		return score;
 	}
-
+	
+	/**
+	 * Returns if the character has been hit with projectiles or not
+	 * @return whether character is alive or not
+	 */
 	public boolean isAlive() {
 		return alive;
 	}
-
+	
+	/**
+	 * Changes whether character is alive or not
+	 */
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}

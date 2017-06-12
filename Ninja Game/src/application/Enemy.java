@@ -2,7 +2,11 @@ package application;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+/**
+ * Enemy class -> incompleted as of submission
+ * @author Andreas Alvear
+ *
+ */
 public class Enemy extends GameObject {
 
 	private Image[] state;
@@ -11,7 +15,12 @@ public class Enemy extends GameObject {
 	private boolean alive;
 	private int velX, velY;
 	private double gravity = 0.7;
-
+	
+	/**
+	 * constructor
+	 * @param x starting x coordinate
+	 * @param y starting y coordinate
+	 */
 	public Enemy(int x, int y) {
 		super(new ImageView());
 		setX(x);
@@ -32,7 +41,10 @@ public class Enemy extends GameObject {
 			right = true;
 		}
 	}
-
+	
+	/**
+	 * Updates state based on EnemyState enum
+	 */
 	public void switchState() {
 		switch (enemyState) {
 		case standingR:

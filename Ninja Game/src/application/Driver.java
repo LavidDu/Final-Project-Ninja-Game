@@ -21,7 +21,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-
+/**
+ * Main driver
+ * 
+ * @author Andreas Alvear
+ * 
+ */
 public class Driver extends Application {
 
 	public Pane root;
@@ -48,6 +53,11 @@ public class Driver extends Application {
 	public Stage window;
 	public Scene menu,instructions, game;
 	
+	/**
+	 * Creates a game scene, setting up canvas, character, and projectiles. 
+	 * 
+	 * @return root, which contains all of the items to make the scene and start the game
+	 */
 	public Parent createGame() {
 
 		root = new Pane();
@@ -79,6 +89,11 @@ public class Driver extends Application {
 		return root;
 	}
 	
+	/**
+	 * Creates a menu scene, with the play and instruction buttons that lead to new scenes.
+	 * 
+	 * @return root, which contains the items that create the menu scene
+	 */
 	public Parent createMenu(){
 		root=new Pane();
 		Canvas canvas= new Canvas(650,550);
@@ -110,6 +125,11 @@ public class Driver extends Application {
 		
 	}
 	
+	/**
+	 * Creates an instructions scene, with a play button that starts a the game
+	 * 
+	 * @return root, which contains the items that create the instructions scene
+	 */
 	public Parent createInstructions(){
 		root=new Pane();
 		Canvas canvas= new Canvas(650,550);
@@ -132,7 +152,12 @@ public class Driver extends Application {
 		root.getChildren().addAll(canvas,play);
 		return root;
 	}
-
+	
+	/**
+	 * Creates projectile objects only when the game has started
+	 * 
+	 * @param u number of frames that passed
+	 */
 	public void addProjectiles(int u) {
 		if (u % 60 == 0)
 			if (begin==true)
@@ -146,7 +171,12 @@ public class Driver extends Application {
 					root.getChildren().add(p.getView());
 			}
 	}
-
+	
+	/**
+	 * Updates location of projectiles, and whether collisions have occurred.
+	 * 
+	 * @param timer is the timer that starts at the beginning of the game
+	 */
 	public void updateProjectiles(AnimationTimer timer) {
 		for (Projectile p : projectiles) {
 			if (!p.isAlive())
@@ -168,7 +198,10 @@ public class Driver extends Application {
 			}
 		}
 	}
-
+	
+	/**
+	 * Updates the state of the character based on buttons pressed.
+	 */
 	public void updatePlayer() {
 		if (downPressed.get() && leftPressed.get()) {
 			player.setBlockDir(BlockDir.downLeft);
@@ -196,6 +229,11 @@ public class Driver extends Application {
 		sword.switchState();
 	}
 
+	/**\
+	 * resets the game
+	 * 	
+	 * @param gc the graphics context 2D of the main game
+	 */
 	public void reset(GraphicsContext gc) {
 		player.setBlockDir(BlockDir.rest);
 		sword.setBlockDir(BlockDir.rest);
@@ -204,6 +242,9 @@ public class Driver extends Application {
 	}
 
 	@Override
+	/**
+	 * Java fx programs follow the instructions on the start method
+	 */
 	public void start(Stage stage) {
 		window=stage;
 
@@ -252,7 +293,12 @@ public class Driver extends Application {
 		});
 		window.show();
 	}
-
+	
+	/**
+	 * Actually unnecessary for javafx
+	 * 
+	 * @param args string arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
