@@ -32,7 +32,7 @@ public class Driver extends Application {
 	public Image bloodsplatter = new Image("/Images/bloodsplatter.png", 100, 100, true, false);
 	public Image EndGameScreen = new Image("/Images/EndGameScreen.png", 400, 220, true, false);
 	public Image menubackground = new Image("/Images/menubackground.png", 650, 550, true, false);
-	public Image instructionsbg= new Image("/Images/instructionsbackground.png", 650, 550, true, false);
+	public Image instructionsbg = new Image("/Images/instructionsbackground.png", 650, 550, true, false);
 	public ImageView playbutton = new ImageView(new Image("/Images/playbutton.png", 80, 80, true, false));
 	public ImageView instructionbutton = new ImageView(new Image("/Images/questionmark.png", 80, 80, true, false));
 	public GraphicsContext gc;
@@ -42,18 +42,18 @@ public class Driver extends Application {
 	public BooleanProperty rightPressed = new SimpleBooleanProperty(false);
 	public ArrayList<Projectile> projectiles;
 	public AnimationTimer timer;
-	
-	public boolean begin=false;
+
+	public boolean begin = false;
 
 	public Stage window;
-	public Scene menu,instructions, game;
-	
+	public Scene menu, instructions, game;
+
 	public Parent createGame() {
 
 		root = new Pane();
 		Canvas canvas = new Canvas(650, background.getHeight() + scoreboard.getHeight());
 		root.getChildren().add(canvas);
-		
+
 		gc = canvas.getGraphicsContext2D();
 		player = new Character();
 		sword = new Sword();
@@ -78,73 +78,76 @@ public class Driver extends Application {
 		timer.start();
 		return root;
 	}
-	
-	public Parent createMenu(){
-		root=new Pane();
-		Canvas canvas= new Canvas(650,550);
-		gc=canvas.getGraphicsContext2D();
+
+	public Parent createMenu() {
+		root = new Pane();
+		Canvas canvas = new Canvas(650, 550);
+		gc = canvas.getGraphicsContext2D();
 		gc.drawImage(menubackground, 0, 0);
-		
-		Button play=new Button();
-		play.setOnAction(new EventHandler<ActionEvent>(){
-			@Override public void handle(ActionEvent e){
+
+		Button play = new Button();
+		play.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
 				reset(gc);
-				begin=true;
+				begin = true;
 				window.setScene(game);
-				
+
 			}
 		});
+		
 		play.setLayoutX(450);
 		play.setLayoutY(340);
 		play.setGraphic(playbutton);
-		
-		Button ins=new Button();
-		ins.setOnAction(e->reset(gc));
-		ins.setOnAction(e-> window.setScene(instructions));
+
+		Button ins = new Button();
+		ins.setOnAction(e -> reset(gc));
+		ins.setOnAction(e -> window.setScene(instructions));
 		ins.setLayoutX(450);
 		ins.setLayoutY(450);
 		ins.setGraphic(instructionbutton);
-		
-		root.getChildren().addAll(canvas,play,ins);
+
+		root.getChildren().addAll(canvas, play, ins);
 		return root;
-		
+
 	}
-	
-	public Parent createInstructions(){
-		root=new Pane();
-		Canvas canvas= new Canvas(650,550);
-		gc=canvas.getGraphicsContext2D();
+
+	public Parent createInstructions() {
+		root = new Pane();
+		Canvas canvas = new Canvas(650, 550);
+		gc = canvas.getGraphicsContext2D();
 		gc.drawImage(instructionsbg, 0, 0);
-		
-		Button play=new Button();
-		play.setOnAction(new EventHandler<ActionEvent>(){
-			@Override public void handle(ActionEvent e){
+
+		Button play = new Button();
+		play.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
 				reset(gc);
-				begin=true;
+				begin = true;
 				window.setScene(game);
-				
+
 			}
 		});
 		play.setLayoutX(450);
 		play.setLayoutY(400);
 		play.setGraphic(playbutton);
-		
-		root.getChildren().addAll(canvas,play);
+
+		root.getChildren().addAll(canvas, play);
 		return root;
 	}
 
 	public void addProjectiles(int u) {
 		if (u % 60 == 0)
-			if (begin==true)
+			if (begin == true)
 				for (int i = 0; i < 1; i++) {
 					double x1 = Math.random() * 200 + 1;
 					double x2 = Math.random() * 240 + 400;
 					double x = Math.random() > 0.5 ? x1 : x2;
 					Projectile p = new Projectile(x, Math.random() * 300 + 1);
-					p.setVelocity(gc, x == x2);
+					p.setVelocity(x == x2);
 					projectiles.add(p);
 					root.getChildren().add(p.getView());
-			}
+				}
 	}
 
 	public void updateProjectiles(AnimationTimer timer) {
@@ -158,7 +161,7 @@ public class Driver extends Application {
 				p.setAlive(false);
 			}
 			if (p.collidewithPlayer() && p.isAlive()) {
-				gc.drawImage(bloodsplatter, player.getTargetX() -30 , player.getTargetY() - 30);
+				gc.drawImage(bloodsplatter, player.getTargetX() - 30, player.getTargetY() - 30);
 				root.getChildren().remove(player.getText());
 				gc.drawImage(EndGameScreen, 140, 100);
 				gc.setFont(new Font(32));
@@ -205,12 +208,11 @@ public class Driver extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		window=stage;
+		window = stage;
+		menu = new Scene(createMenu());
+		instructions = new Scene(createInstructions());
+		game = new Scene(createGame());
 
-		menu=new Scene(createMenu());
-		instructions=new Scene(createInstructions());
-		game=new Scene(createGame());
-		
 		window.setScene(menu);
 
 		game.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -243,7 +245,7 @@ public class Driver extends Application {
 				}
 				if (event.getCode() == KeyCode.LEFT) {
 					leftPressed.set(false);
-				} 
+				}
 				if (event.getCode() == KeyCode.RIGHT) {
 					rightPressed.set(false);
 				}

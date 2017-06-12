@@ -1,9 +1,7 @@
 package application;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 public class Projectile extends GameObject {
 
@@ -24,7 +22,7 @@ public class Projectile extends GameObject {
 		updateBounds();
 	}
 
-	public void setVelocity(GraphicsContext gc, boolean neg) {
+	public void setVelocity(boolean neg) {
 		double x1 = getX();
 		double y1 = getY();
 		double x2 = targetX;
